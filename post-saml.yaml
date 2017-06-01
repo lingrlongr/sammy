@@ -1,0 +1,28 @@
+Parameters:
+  OriginUrl:
+    Description: The origin url to allow CORS requests from. This will be the base
+      URL of your static SAM website.
+    Type: String
+  SamMultipler:
+    Description: SAM multiplier. Make this really big to have a party :)
+    Type: String
+Resources:
+  GetSAMPartyCount:
+    Properties:
+      CodeUri: s3://keith-saml/d43d02e7db69b8fce2028e7a6e6a5de9
+      Environment:
+        Variables:
+          ORIGIN_URL:
+            Ref: OriginUrl
+          SAM_MULTIPLIER:
+            Ref: SamMultipler
+      Events:
+        GetResource:
+          Properties:
+            Method: get
+            Path: /sam
+          Type: Api
+      Handler: index.handler
+      Runtime: nodejs4.3
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
